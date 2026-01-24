@@ -6,97 +6,365 @@
     <title>Terms of Service - Patternly</title>
     <style>
       :root {
-        color-scheme: light;
-        --bg: #f7f3ee;
-        --ink: #1b1b1b;
-        --muted: #5c5c5c;
-        --card: #fff7ef;
-        --accent: #2a6b5f;
+        color-scheme: dark;
+        --bg: #0b0f14;
+        --bg-2: #0f1822;
+        --pane: #0b121a;
+        --pane-2: #0c1520;
+        --ink: #e8f1ff;
+        --muted: #9fb0c4;
+        --accent: #3ff2a5;
+        --accent-2: #f6c04f;
+        --border: #1b2936;
+        --glow: rgba(63, 242, 165, 0.3);
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        font-family: "Georgia", "Times New Roman", serif;
-        background: linear-gradient(135deg, #f7f3ee 0%, #efe7dc 100%);
+        min-height: 100vh;
+        font-family: "IBM Plex Mono", "JetBrains Mono", "Fira Code", "Cascadia Code", "Menlo", monospace;
         color: var(--ink);
+        background:
+          radial-gradient(900px 600px at 10% 10%, rgba(63, 242, 165, 0.14), transparent 60%),
+          radial-gradient(800px 500px at 90% 20%, rgba(246, 192, 79, 0.12), transparent 62%),
+          linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 100%);
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.04) 0px,
+          rgba(255, 255, 255, 0.04) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+        opacity: 0.25;
+        mix-blend-mode: soft-light;
       }
       main {
-        max-width: 800px;
-        margin: 6vh auto;
-        padding: 32px;
-        background: var(--card);
-        border: 1px solid #e7ddcf;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        max-width: 980px;
+        margin: clamp(24px, 6vh, 72px) auto;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: linear-gradient(180deg, var(--pane) 0%, var(--pane-2) 100%);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 40px var(--glow);
+        overflow: hidden;
+      }
+      .titlebar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--border);
+        background: #0a1118;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .dots {
+        display: flex;
+        gap: 8px;
+      }
+      .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      }
+      .dot-close { background: #ff5f57; }
+      .dot-min { background: #febc2e; }
+      .dot-max { background: #28c840; }
+      .title {
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #c7d2e1;
+      }
+      .status {
+        margin-left: auto;
+        padding: 4px 10px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--accent);
+        font-size: 12px;
+      }
+      .screen {
+        padding: 28px clamp(20px, 4vw, 42px) 36px;
+      }
+      .prompt-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 18px;
+      }
+      .prompt, .cursor {
+        color: var(--accent);
+      }
+      .path {
+        color: var(--accent-2);
+      }
+      .cmd {
+        color: var(--ink);
+      }
+      .hero h1 {
+        margin: 0 0 8px;
+        font-size: clamp(28px, 4vw, 40px);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .tagline {
+        margin: 0;
+        color: var(--accent);
+        font-size: 15px;
+      }
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 12px;
+        margin: 24px 0 8px;
+      }
+      .meta-item {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 14px;
+        background: rgba(10, 16, 24, 0.7);
+      }
+      .meta-label {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 6px;
+      }
+      .meta-value {
+        display: block;
+        font-size: 14px;
+      }
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 24px 0;
+      }
+      .section {
+        margin-bottom: 18px;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(12, 20, 30, 0.7);
+        position: relative;
+      }
+      .section::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12px;
+        bottom: 12px;
+        width: 2px;
+        background: linear-gradient(180deg, var(--accent), transparent);
+      }
+      h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        color: var(--accent-2);
+      }
+      p {
+        margin: 0 0 10px;
+        color: var(--ink);
         line-height: 1.6;
       }
-      h1 { margin: 0 0 12px; font-size: 32px; }
-      h2 { margin: 24px 0 8px; font-size: 20px; }
-      p { margin: 0 0 12px; }
-      ul { margin: 0 0 12px 20px; }
-      li { margin: 6px 0; }
-      .meta { color: var(--muted); font-size: 14px; }
-      a { color: var(--accent); }
+      p:last-child {
+        margin-bottom: 0;
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding-left: 0;
+      }
+      li {
+        margin: 8px 0;
+        color: var(--ink);
+        position: relative;
+        padding-left: 16px;
+      }
+      li::before {
+        content: ">";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px dashed rgba(63, 242, 165, 0.4);
+      }
+      a:hover {
+        border-bottom-color: var(--accent);
+      }
+      .footer-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 24px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .cursor-block {
+        display: inline-block;
+        width: 10px;
+        height: 16px;
+        background: var(--accent);
+        margin-left: 4px;
+        animation: blink 1.2s steps(2, start) infinite;
+      }
+      @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+      }
+      @media (max-width: 640px) {
+        .titlebar {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .status {
+          margin-left: 0;
+        }
+        .screen {
+          padding: 22px 18px 28px;
+        }
+        .section {
+          padding: 14px;
+        }
+      }
     </style>
   </head>
   <body>
     <main>
-      <h1>Terms of Service</h1>
+      <div class="titlebar">
+        <div class="dots">
+          <span class="dot dot-close"></span>
+          <span class="dot dot-min"></span>
+          <span class="dot dot-max"></span>
+        </div>
+        <div class="title">patternly - terms-of-service</div>
+        <div class="status">session: local</div>
+      </div>
+      <div class="screen">
+        <div class="prompt-line">
+          <span class="prompt">ankur@patternly</span>
+          <span class="path">:~/policies</span>
+          <span class="cursor">$</span>
+          <span class="cmd">cat terms-of-service.txt</span>
+        </div>
 
-      <p class="meta"><strong>App:</strong> Patternly</p>
-      <p class="meta"><strong>Owner:</strong> Ankur</p>
-      <p class="meta"><strong>Contact:</strong> ankurjain3771@gmail.com</p>
-      <p class="meta"><strong>Effective date:</strong> 2026-01-19</p>
+        <div class="hero">
+          <h1>Terms of Service</h1>
+          <p class="tagline">Simple rules, clear boundaries, and full control over your data.</p>
+        </div>
 
-      <h2>Acceptance</h2>
-      <p>By using Patternly, you agree to these Terms.</p>
+        <div class="meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">App</span>
+            <span class="meta-value">Patternly</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Owner</span>
+            <span class="meta-value">Ankur</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Contact</span>
+            <span class="meta-value">ankurjain3771@gmail.com</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Effective Date</span>
+            <span class="meta-value">2026-01-19</span>
+          </div>
+        </div>
 
-      <h2>Purpose and Medical Disclaimer</h2>
-      <p>
-        Patternly is a self-tracking tool and <strong>not</strong> a medical
-        device. It does not provide medical advice, diagnosis, or treatment. If you
-        are experiencing a mental health crisis, seek professional help immediately.
-      </p>
+        <div class="divider"></div>
 
-      <h2>Your Data and Responsibility</h2>
-      <ul>
-        <li>You control the data you enter and export.</li>
-        <li>
-          You are responsible for maintaining the security of your device and any
-          exported files.
-        </li>
-      </ul>
+        <section class="section">
+          <h2>Acceptance</h2>
+          <p>By using Patternly, you agree to these Terms.</p>
+        </section>
 
-      <h2>Acceptable Use</h2>
-      <p>You agree not to:</p>
-      <ul>
-        <li>Reverse engineer or attempt to extract source code.</li>
-        <li>Use the app for unlawful purposes.</li>
-      </ul>
+        <section class="section">
+          <h2>Purpose and Medical Disclaimer</h2>
+          <p>
+            Patternly is a self-tracking tool and <strong>not</strong> a medical
+            device. It does not provide medical advice, diagnosis, or treatment. If you
+            are experiencing a mental health crisis, seek professional help immediately.
+          </p>
+        </section>
 
-      <h2>Intellectual Property</h2>
-      <p>
-        All rights, title, and interest in the app, its design, and branding belong
-        to the owner.
-      </p>
+        <section class="section">
+          <h2>Your Data and Responsibility</h2>
+          <ul>
+            <li>You control the data you enter and export.</li>
+            <li>
+              You are responsible for maintaining the security of your device and any
+              exported files.
+            </li>
+          </ul>
+        </section>
 
-      <h2>Disclaimer of Warranties</h2>
-      <p>The app is provided “as is” without warranties of any kind, express or implied.</p>
+        <section class="section">
+          <h2>Acceptable Use</h2>
+          <p>You agree not to:</p>
+          <ul>
+            <li>Reverse engineer or attempt to extract source code.</li>
+            <li>Use the app for unlawful purposes.</li>
+          </ul>
+        </section>
 
-      <h2>Limitation of Liability</h2>
-      <p>
-        To the fullest extent permitted by law, the owner is not liable for any
-        indirect, incidental, or consequential damages arising from your use of the app.
-      </p>
+        <section class="section">
+          <h2>Intellectual Property</h2>
+          <p>
+            All rights, title, and interest in the app, its design, and branding belong
+            to the owner.
+          </p>
+        </section>
 
-      <h2>Termination</h2>
-      <p>We may suspend or terminate access to the app if you violate these Terms.</p>
+        <section class="section">
+          <h2>Disclaimer of Warranties</h2>
+          <p>The app is provided “as is” without warranties of any kind, express or implied.</p>
+        </section>
 
-      <h2>Changes to These Terms</h2>
-      <p>We may update these Terms. The effective date will be updated accordingly.</p>
+        <section class="section">
+          <h2>Limitation of Liability</h2>
+          <p>
+            To the fullest extent permitted by law, the owner is not liable for any
+            indirect, incidental, or consequential damages arising from your use of the app.
+          </p>
+        </section>
 
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:ankurjain3771@gmail.com">ankurjain3771@gmail.com</a></p>
+        <section class="section">
+          <h2>Termination</h2>
+          <p>We may suspend or terminate access to the app if you violate these Terms.</p>
+        </section>
+
+        <section class="section">
+          <h2>Changes to These Terms</h2>
+          <p>We may update these Terms. The effective date will be updated accordingly.</p>
+        </section>
+
+        <section class="section">
+          <h2>Contact</h2>
+          <p>Email: <a href="mailto:ankurjain3771@gmail.com">ankurjain3771@gmail.com</a></p>
+        </section>
+
+        <div class="footer-line">
+          <span class="prompt">legal@patternly</span>
+          <span class="path">:~/terms</span>
+          <span class="cursor">$</span>
+          <span class="cmd">exit</span>
+          <span class="cursor-block"></span>
+        </div>
+      </div>
     </main>
   </body>
 </html>
